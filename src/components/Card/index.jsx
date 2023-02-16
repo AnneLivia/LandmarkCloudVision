@@ -1,5 +1,4 @@
 import { Card } from 'react-bootstrap';
-import './index.css';
 
 const CustomCard = ({
   image,
@@ -12,9 +11,7 @@ const CustomCard = ({
 }) => {
   return (
     <Card
-      className={`${hasShadow ? 'shadow' : ''} ${
-        isScrollable ? 'scroll' : ''
-      } blackTheme`}
+      className={`${hasShadow ? 'shadow' : ''} ${isScrollable ? 'scroll' : ''}`}
       style={{
         borderColor,
         marginTop: '10%',
@@ -43,7 +40,6 @@ const CustomCard = ({
         <Card.Footer
           className='text-center'
           style={{
-            backgroundColor: '#1D2021',
             borderTopColor: '#FFF',
           }}
         >

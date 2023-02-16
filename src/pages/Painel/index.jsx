@@ -16,7 +16,6 @@ const Painel = () => {
   });
 
   const handleSubmit = async (event) => {
-    console.log('aqui');
     event.preventDefault();
     if (event.target.image.files[0]) {
       const formData = new FormData();
@@ -55,7 +54,7 @@ const Painel = () => {
   };
 
   return (
-    <CustomCard>
+    <CustomCard borderColor='#fff'>
       <Row>
         <Col md={5} className='mb-2'>
           <h2 className='text-center'>Localiza AI</h2>
