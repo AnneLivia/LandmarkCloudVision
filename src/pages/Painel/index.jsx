@@ -5,9 +5,11 @@ import defaultImage from '../../assets/default_image.jpg';
 import Map from './Maps';
 import axios from '../../service/api.js';
 import { toast } from 'react-toastify';
+import CustomSpinner from '../../components/Spinner';
 
 const Painel = () => {
   const [image, setImage] = useState(defaultImage);
+  const [loading, setLoading] = useState(false);
   const [localizationOnMap, setLocalizationOnMap] = useState({
     latitude: 48.861013,
     longitude: 2.335818,
@@ -17,6 +19,7 @@ const Painel = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     if (event.target.image.files[0]) {
       const formData = new FormData();
       formData.append('image', event.target.image.files[0]);
@@ -49,6 +52,8 @@ const Painel = () => {
         }
         console.error(err);
         toast.error(err.message);
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -57,13 +62,14 @@ const Painel = () => {
     <CustomCard borderColor='#fff'>
       <Row>
         <Col md={5} className='mb-2'>
-          <h2 className='text-center'>Localiza AI</h2>
+          <h2 className='text-center'>Where is this landmark located?</h2>
           <Image
             src={image}
             alt='An image uploaded by the user'
             className='d-block mx-auto rounded'
-            style={{ backgroundColor: '#000', height: 300 }}
+            style={{ backgroundColor: '#000' }}
             thumbnail
+            width={500}
           />
           <Form
             onSubmit={handleSubmit}
@@ -86,18 +92,22 @@ const Painel = () => {
                 variant='dark'
                 type='submit'
               >
-                Localizar
+                localize
               </Button>
             </InputGroup>
           </Form>
         </Col>
-        <Col md={2}></Col>
+        <Col md={2} className='align-self-center'>
+          <div className='text-center'>
+            <CustomSpinner loading={loading} color='#ff6100' />
+          </div>
+        </Col>
         <Col md={5}>
           <Map {...localizationOnMap} zoom={16} className='fluid' />
           <p className='mt-3 text-center'>{localizationOnMap.locationName}</p>
           {localizationOnMap.score && (
             <p className='mt-3 text-center'>
-              Probilidade: {Math.round(localizationOnMap.score * 100)}%
+              Probability: {Math.round(localizationOnMap.score * 100)}%
             </p>
           )}
         </Col>
